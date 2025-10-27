@@ -52,6 +52,47 @@ for i in range(len(data)):
     
 print data
 
-print ("lemons : "+str(lemons)+",rasberries : "+str(rasberries)+",breads : "+str(breads))
-print ("lemons : "+str(lemons/len(data))+",rasberries : "+str(rasberries/len(data))+",breads : "+str(breads/len(data)))
+print ("lemons : "+str(lemons)+", rasberries : "+str(rasberries)+", breads : "+str(breads))
+print ("lemons : "+str(lemons/len(data))+", rasberries : "+str(rasberries/len(data))+", breads : "+str(breads/len(data)))
 
+def explore(datacollected,terrain):
+  if len(terrain) == 1:
+    print datacollected
+    return datacollected
+  else:
+    print ("remake "+terrain[0]+" going to "+terrain[1])
+    datacollected[terrain[0]][terrain[1]] += 1
+    print datacollected
+    return explore(datacollected,terrain[1:])
+    
+newmap = explore({
+  "l":{"l":0,"r":0,"b":0},
+  "r":{"l":0,"r":0,"b":0},
+  "b":{"l":0,"r":0,"b":0}
+  },data)
+
+lwhole = newmap["l"]["l"] + newmap["l"]["r"] + newmap["l"]["b"]
+rwhole = newmap["r"]["l"] + newmap["r"]["r"] + newmap["r"]["b"]
+bwhole = newmap["b"]["l"] + newmap["b"]["r"] + newmap["b"]["b"]
+
+print (str(lwhole)+" "+str(rwhole)+" "+str(bwhole))
+
+solvednewmap = {
+  "l":{
+    "l":newmap["l"]["l"]/lwhole,
+    "r":newmap["l"]["r"]/lwhole,
+    "b":newmap["l"]["b"]/lwhole
+  },
+  "r":{
+    "l":newmap["r"]["l"]/rwhole,
+    "r":newmap["r"]["r"]/rwhole,
+    "b":newmap["r"]["b"]/rwhole
+  },
+  "b":{
+    "l":newmap["b"]["l"]/bwhole,
+    "r":newmap["b"]["r"]/bwhole,
+    "b":newmap["b"]["b"]/bwhole
+  }
+}
+
+print solvednewmap
